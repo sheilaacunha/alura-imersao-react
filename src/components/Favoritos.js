@@ -6,6 +6,7 @@ const StyledFavoritos = styled.div`
   width: 100%;
   padding: 16px;
   overflow: hidden;
+   color: ${({ theme }) => theme.textColorBase || "#222222"};
   
   img {
     width: 80px;
@@ -50,6 +51,7 @@ const StyledFavoritos = styled.div`
     order: 1;
     flex-grow: 0;
 	padding-top: 10px;
+   color: ${({ theme }) => theme.textColorBase || "#222222"};
   }
 `;
 
@@ -74,7 +76,7 @@ function Favorito(props) {
 		<div>
 			<a className={'favorito-item'} href={`https://youtube.com/${props.favorito.tag}`}>
 				<img src={props.favorito.thumbnail} alt=""/>
-				<span>{props.favorito.tag}</span>
+				<span>@{props.favorito.tag}</span>
 			</a>
 		</div>
 	)

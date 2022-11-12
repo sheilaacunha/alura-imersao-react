@@ -55,3 +55,7 @@ os dados de forma "global";
 - Usamos o client público do Supabase;
 - Criamos um service ao final para organizar melhor nosso código.
 ```
+## como esta nosso projeto 
+-  `_app.js`: Carrega o setip base do projeto
+- Aqui vão ficar os providers de infomações do nosso projeto.
+- CSSReset

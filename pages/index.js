@@ -6,10 +6,34 @@ import Menu from '../src/components/Menu'
 import { StyledTimeline } from "../src/components/Timeline";
 import Favoritos from "../src/components/Favoritos";
 import Head from 'next/head'
+import { videoService } from "../src/services/videoService";
 
 function HomePage() {
+    const service = videoService();
 
     const [valorDoFiltro, setValorDoFiltro] = React.useState("");
+
+    const [playlists, setPlaylists] = React.useState({});     // config.playlists
+
+    React.useEffect(() => {
+        console.log("useEffect");
+        service
+            .getAllVideos()
+            .then((dados) => {
+                console.log(dados.data);
+                // Forma imutavel
+                const novasPlaylists = {};
+                dados.data.forEach((video) => {
+                    if (!novasPlaylists[video.playlist]) novasPlaylists[video.playlist] = [];
+                    novasPlaylists[video.playlist] = [
+                        video,
+                        ...novasPlaylists[video.playlist],
+                    ];
+                });
+
+                setPlaylists(novasPlaylists);
+            });
+    }, []);  
 
     return (
         <>
@@ -25,9 +49,15 @@ function HomePage() {
                     <meta name="description" content="Criando durante a Imersão React 5 da Alura" />
                     <link rel="icon" href="./favicon.png" />
                 </Head>
-                <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro} />
+                <Menu 
+                valorDoFiltro={valorDoFiltro} 
+                setValorDoFiltro={setValorDoFiltro} 
+                />
                 <Header />
-                <TimeLine searchValue={valorDoFiltro} playlists={config.playlists}/>
+                <TimeLine 
+                searchValue={valorDoFiltro} 
+                playlists={playlists}
+                />
                    
                 <Favoritos />
 
@@ -40,14 +70,6 @@ function HomePage() {
 
 export default HomePage
 
-// function Menu() {
-//     return (
-//         <div>
-//             Menu
-//         </div>)
-
-
-// }
 
 const StyledHeader = styled.div`
 background-color: ${({theme})=>theme.backgroundLevel1};
